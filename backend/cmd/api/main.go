@@ -28,7 +28,7 @@ func main() {
 		port = "8080"
 	}
 
-	log.Printf("Coverly API running on port %s", port)
+	log.Printf("Api running on port %s", port)
 
 	log.Fatal(http.ListenAndServe(":"+port, mux))
 }
