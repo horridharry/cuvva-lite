@@ -2,7 +2,7 @@ package vehicle
 
 type Vehicle struct {
 	ID           int64  `json:"id"`
-	Registration string `json:"Registration"`
+	Registration string `json:"registration"`
 	Make         string `json:"make"`
 	Model        string `json:"model"`
 	Year         int    `json:"year"`
