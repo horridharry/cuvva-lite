@@ -5,7 +5,7 @@ CREATE TABLE quotes (
     driver_age SMALLINT NOT NULL,
     years_licensed SMALLINT NOT NULL,
     penalty_points SMALLINT NOT NULL,
-    duration INTEGER NOT NULL,
+    duration_minutes INTEGER NOT NULL,
     price_pence INTEGER NOT NULL,
     expires_at TIMESTAMPTZ NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
