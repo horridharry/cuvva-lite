@@ -64,3 +64,43 @@ func (repository *Repository) FindByRegistration(
 
 	return vehicle, nil
 }
+
+func (repository *Repository) FindByID(
+	ctx context.Context,
+	id int64,
+) (Vehicle, error) {
+	const query = `
+		SELECT
+			id,
+			registration,
+			make,
+			model,
+			year,
+			fuel_type,
+			engine_size_cc
+		FROM vehicles
+		WHERE id = $1
+	`
+
+	var vehicle Vehicle
+
+	queryError := repository.db.QueryRow(ctx, query, id).Scan(
+		&vehicle.ID,
+		&vehicle.Registration,
+		&vehicle.Make,
+		&vehicle.Model,
+		&vehicle.Year,
+		&vehicle.FuelType,
+		&vehicle.EngineSizeCC,
+	)
+
+	if errors.Is(queryError, pgx.ErrNoRows) {
+		return Vehicle{}, VehicleNotFound
+	}
+
+	if queryError != nil {
+		return Vehicle{}, queryError
+	}
+
+	return vehicle, nil
+}
