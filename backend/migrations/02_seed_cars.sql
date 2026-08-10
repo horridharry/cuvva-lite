@@ -1,5 +1,5 @@
 INSERT INTO vehicles (
-    reg,
+    registration,
     make,
     model,
     year,
