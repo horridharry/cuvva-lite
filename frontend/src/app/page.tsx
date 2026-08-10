@@ -1,5 +1,6 @@
 import { ApiStatus } from "@/components/api-status";
 import { VehicleSearch } from "@/components/vehicle-search";
+import { QuoteFlow } from "@/components/quote-flow";
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
       <p>Temporary car insurance simulator.</p>
 
       <ApiStatus />
-      <VehicleSearch/>
+      <QuoteFlow/>
     </main>
   );
 }

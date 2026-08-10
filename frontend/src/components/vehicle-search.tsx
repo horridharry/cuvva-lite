@@ -3,7 +3,11 @@
 import { SubmitEvent, useState } from "react";
 import type { Vehicle } from "@/types/vehicle";
 
-export function VehicleSearch() {
+type Props = {
+  onVehicleFound: (vehicle: Vehicle) => void;
+};
+
+export function VehicleSearch({ onVehicleFound }: Props) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [registration, setRegistration] = useState("");
@@ -35,6 +39,7 @@ export function VehicleSearch() {
       const data: Vehicle = await response.json();
 
       setVehicle(data);
+      onVehicleFound(data);
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
