@@ -1,0 +1,8 @@
+CREATE TABLE payments (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    quote_id BIGINT NOT NULL
+        REFERENCES quotes(id),
+    amount_pence INTEGER NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

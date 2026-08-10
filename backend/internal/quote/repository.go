@@ -2,7 +2,9 @@ package quote
 
 import (
 	"context"
+	"errors"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -53,6 +55,52 @@ func (repository *Repository) Create(
 
 	if queryError != nil {
 		return Quote{}, queryError
+	}
+
+	return q, nil
+}
+
+func (r *Repository) FindByID(
+	ctx context.Context,
+	id int64,
+) (Quote, error) {
+	const query = `
+		SELECT
+			id,
+			vehicle_id,
+			driver_age,
+			years_licensed,
+			penalty_points,
+			duration_minutes,
+			price_pence,
+			starts_at,
+			expires_at,
+			created_at
+		FROM quotes
+		WHERE id = $1
+	`
+
+	var q Quote
+
+	err := r.db.QueryRow(ctx, query, id).Scan(
+		&q.ID,
+		&q.VehicleID,
+		&q.DriverAge,
+		&q.YearsLicensed,
+		&q.PenaltyPoints,
+		&q.DurationMinutes,
+		&q.PricePence,
+		&q.StartsAt,
+		&q.ExpiresAt,
+		&q.CreatedAt,
+	)
+
+	if errors.Is(err, pgx.ErrNoRows) {
+		return Quote{}, InvalidQuoteRequest
+	}
+
+	if err != nil {
+		return Quote{}, err
 	}
 
 	return q, nil
