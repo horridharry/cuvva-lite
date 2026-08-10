@@ -3,6 +3,7 @@ package vehicle
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 )
 
@@ -33,7 +34,8 @@ func (handler *Handler) GetByRegistration(
 	}
 
 	if repositoryError != nil {
-		http.Error(responseWriter, "Internal server error", http.StatusInternalServerError)
+		log.Printf("Vehicle lookup failed: %v", repositoryError)
+		http.Error(responseWriter, "internal server error", http.StatusInternalServerError)
 		return
 	}
 

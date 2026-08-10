@@ -21,7 +21,7 @@ func NewRepository(db *pgxpool.Pool) *Repository {
 	}
 }
 
-func (r *Repository) FindByRegistration(
+func (repository *Repository) FindByRegistration(
 	ctx context.Context,
 	registration string,
 ) (Vehicle, error) {
@@ -39,12 +39,12 @@ func (r *Repository) FindByRegistration(
 			fuel_type,
 			engine_size_cc
 		FROM vehicles
-		WHERE reg = $1
+		WHERE registration = $1
 	`
 
 	var vehicle Vehicle
 
-	queryError := r.db.QueryRow(ctx, query, registration).Scan(
+	queryError := repository.db.QueryRow(ctx, query, registration).Scan(
 		&vehicle.ID,
 		&vehicle.Registration,
 		&vehicle.Make,
