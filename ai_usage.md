@@ -1,0 +1,1 @@
+I used ChatGPT to generate demo car values. I fed it the entire page of https://www.gumtree.com/p/toyota/toyota-auris-hatchback-2018-other-1798-cc-5-doors/1801364283 + the 2nd car photo and I asked it to generate 15 other cars using that data as a base.
