@@ -13,3 +13,11 @@ Frontend: NextJs, Typescript & TailwindsCSS
 Backend: Go, Vercel, Neon
 
 Database: PostgreSQL
+
+### Try the demo
+
+1. Enter `FH18 UKU` as the vehicle registration.
+2. Use any valid details, for example:
+   - Age: 24
+   - Licence held: 4 years
+   - Penalty points: 0
