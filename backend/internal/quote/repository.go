@@ -3,6 +3,7 @@ package quote
 import (
 	"context"
 	"errors"
+	"log"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -35,6 +36,7 @@ func (repository *Repository) Create(
 		VALUES ($1, $2, $3, $4, $5, $6, $7)
 		RETURNING
 			id,
+			starts_at,
 			created_at
 	`
 
@@ -50,6 +52,7 @@ func (repository *Repository) Create(
 		q.ExpiresAt,
 	).Scan(
 		&q.ID,
+		&q.StartsAt,
 		&q.CreatedAt,
 	)
 
@@ -94,6 +97,8 @@ func (r *Repository) FindByID(
 		&q.ExpiresAt,
 		&q.CreatedAt,
 	)
+
+	log.Printf("FindByID id=%d err=%v quote=%+v", id, err, q)
 
 	if errors.Is(err, pgx.ErrNoRows) {
 		return Quote{}, InvalidQuoteRequest

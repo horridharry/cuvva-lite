@@ -10,7 +10,7 @@ type Quote struct {
 	PenaltyPoints   int       `json:"penaltyPoints"`
 	DurationMinutes int       `json:"durationMinutes"`
 	PricePence      int       `json:"pricePence"`
-	StartsAt        int       `json:"startsAt"`
+	StartsAt        time.Time `json:"startsAt"`
 	ExpiresAt       time.Time `json:"expiresAt"`
 	CreatedAt       time.Time `json:"createdAt"`
 }

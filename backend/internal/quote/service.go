@@ -10,6 +10,7 @@ import (
 )
 
 var InvalidQuoteRequest = errors.New("Invalid quote request")
+var ErrQuoteExpired = errors.New("quote expired")
 
 type Service struct {
 	repository        *Repository
@@ -30,6 +31,7 @@ func (s *Service) Create(
 	ctx context.Context,
 	request CreateRequest,
 ) (Quote, error) {
+
 	if request.DriverAge < 18 ||
 		request.DriverAge > 80 ||
 		request.YearsLicensed < 0 ||

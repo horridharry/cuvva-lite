@@ -1,13 +1,15 @@
 package payment
 
-func Authorise(method string) Status {
-	switch method {
+type Service struct{}
+
+func NewService() *Service {
+	return &Service{}
+}
+
+func (s *Service) Authorise(paymentMethod string) Status {
+	switch paymentMethod {
 	case "4242":
 		return StatusSucceeded
-
-	case "0002":
-		return StatusDeclined
-
 	default:
 		return StatusDeclined
 	}

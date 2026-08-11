@@ -10,6 +10,8 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/horridharry/cuvva-lite/backend/internal/database"
+	"github.com/horridharry/cuvva-lite/backend/internal/payment"
+	"github.com/horridharry/cuvva-lite/backend/internal/policy"
 	"github.com/horridharry/cuvva-lite/backend/internal/quote"
 	"github.com/horridharry/cuvva-lite/backend/internal/vehicle"
 )
@@ -34,13 +36,26 @@ func main() {
 	defer db.Close()
 
 	vehicleRepository := vehicle.NewRepository(db)
+
 	quoteRepository := quote.NewRepository(db)
+	policyRepository := policy.NewRepository(db)
+
+	paymentService := payment.NewService()
+
+	policyService := policy.NewService(
+		policyRepository,
+		paymentService,
+	)
+
+	policyHandler := policy.NewHandler(
+		quoteRepository,
+		policyService,
+	)
 
 	quoteService := quote.NewService(
 		quoteRepository,
 		vehicleRepository,
 	)
-
 	quoteHandler := quote.NewHandler(quoteService)
 	vehicleHandler := vehicle.NewHandler(vehicleRepository)
 
@@ -59,6 +74,11 @@ func main() {
 			)
 		}
 	})
+
+	mux.HandleFunc(
+		"POST /api/quotes/{id}/purchase",
+		policyHandler.Purchase,
+	)
 
 	mux.HandleFunc(
 		"POST /api/quotes",

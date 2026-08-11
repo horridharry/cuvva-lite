@@ -8,17 +8,15 @@ type Props = {
 };
 
 export function VehicleSearch({ onVehicleFound }: Props) {
+  const [registration, setRegistration] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [registration, setRegistration] = useState("");
-  const [vehicle, setVehicle] = useState<Vehicle | null>(null);
 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setError("");
     setLoading(true);
-    setVehicle(null);
 
     try {
       const normalisedRegistration = registration.trim();
@@ -36,10 +34,9 @@ export function VehicleSearch({ onVehicleFound }: Props) {
         throw new Error("Vehicle lookup failed");
       }
 
-      const data: Vehicle = await response.json();
+      const vehicle: Vehicle = await response.json();
 
-      setVehicle(data);
-      onVehicleFound(data);
+      onVehicleFound(vehicle);
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -63,25 +60,12 @@ export function VehicleSearch({ onVehicleFound }: Props) {
           required
         />
 
-        <button type="submit" disabled={loading}>
+        <button className='bg-white text-black rounded-md p-2 px-3 text-xs' type="submit" disabled={loading}>
           {loading ? "Searching..." : "Find vehicle"}
         </button>
       </form>
 
       {error && <p>{error}</p>}
-
-      {vehicle && (
-        <div>
-          <h2>
-            {vehicle.make} {vehicle.model}
-          </h2>
-
-          <p>Registration: {vehicle.registration}</p>
-          <p>Year: {vehicle.year}</p>
-          <p>Fuel: {vehicle.fuelType}</p>
-          <p>Engine: {vehicle.engineSizeCc}cc</p>
-        </div>
-      )}
     </section>
   );
 }
