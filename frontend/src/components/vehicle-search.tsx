@@ -51,18 +51,32 @@ export function VehicleSearch({ onVehicleFound }: Props) {
           Vehicle registration
         </label>
 
-        <input
-          id="registration"
-          type="text"
-          value={registration}
-          onChange={(event) => setRegistration(event.target.value)}
-          placeholder="FH18 UKU"
-          required
-        />
+      <div className="flex gap-2">
+        <div className="flex-1">
+          <input
+            className="border rounded p-2 border-white/50 w-full"
+            id="registration"
+            type="text"
+            value={registration}
+            onChange={(event) => setRegistration(event.target.value)}
+            placeholder="FH18 UKU"
+            required
+          />
 
-        <button className='bg-white text-black rounded-md p-2 px-3 text-xs' type="submit" disabled={loading}>
+   
+        </div>
+
+        <button
+          className="bg-white text-black rounded-md px-3 text-xs"
+          type="submit"
+          disabled={loading}
+        >
           {loading ? "Searching..." : "Find vehicle"}
         </button>
+      </div>
+             <p className="text-xs text-white/80 mt-2">
+            Try: FH18 UKU or GK21LNP
+          </p>
       </form>
 
       {error && <p>{error}</p>}
