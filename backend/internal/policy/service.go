@@ -36,9 +36,18 @@ func (service *Service) CreateFromQuote(
 		return Policy{}, ErrQuoteExpired
 	}
 
-	paymentStatus := service.paymentService.Authorise(paymentMethod)
+	paymentResult, err := service.paymentService.Authorise(
+		ctx,
+		q.ID,
+		q.PricePence,
+		paymentMethod,
+	)
 
-	if paymentStatus != payment.StatusSucceeded {
+	if err != nil {
+		return Policy{}, err
+	}
+
+	if paymentResult.Status != payment.StatusSucceeded {
 		return Policy{}, ErrPaymentDeclined
 	}
 

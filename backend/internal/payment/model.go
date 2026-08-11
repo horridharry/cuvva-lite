@@ -1,5 +1,7 @@
 package payment
 
+import "time"
+
 type Status string
 
 const (
@@ -8,8 +10,9 @@ const (
 )
 
 type Payment struct {
-	ID          int64  `json:"id"`
-	QuoteID     int64  `json:"quoteId"`
-	AmountPence int    `json:"amountPence"`
-	Status      Status `json:"status"`
+	ID          int64     `json:"id"`
+	QuoteID     int64     `json:"quoteId"`
+	AmountPence int       `json:"amountPence"`
+	Status      Status    `json:"status"`
+	CreatedAt   time.Time `json:"createdAt"`
 }

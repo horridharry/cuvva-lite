@@ -39,8 +39,11 @@ func main() {
 
 	quoteRepository := quote.NewRepository(db)
 	policyRepository := policy.NewRepository(db)
+	paymentRepository := payment.NewRepository(db)
 
-	paymentService := payment.NewService()
+	paymentService := payment.NewService(
+		paymentRepository,
+	)
 
 	policyService := policy.NewService(
 		policyRepository,

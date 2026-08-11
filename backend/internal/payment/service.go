@@ -1,16 +1,34 @@
 package payment
 
-type Service struct{}
+import "context"
 
-func NewService() *Service {
-	return &Service{}
+type Service struct {
+	repository *Repository
 }
 
-func (s *Service) Authorise(paymentMethod string) Status {
-	switch paymentMethod {
-	case "4242":
-		return StatusSucceeded
-	default:
-		return StatusDeclined
+func NewService(repository *Repository) *Service {
+	return &Service{
+		repository: repository,
 	}
+}
+
+func (service *Service) Authorise(
+	ctx context.Context,
+	quoteID int64,
+	amountPence int,
+	paymentMethod string,
+) (Payment, error) {
+	status := StatusDeclined
+
+	if paymentMethod == "4242" {
+		status = StatusSucceeded
+	}
+
+	p := Payment{
+		QuoteID:     quoteID,
+		AmountPence: amountPence,
+		Status:      status,
+	}
+
+	return service.repository.Create(ctx, p)
 }
